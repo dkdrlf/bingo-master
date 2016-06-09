@@ -83,7 +83,18 @@ public class BingoGameClient implements Runnable {
 					gl.updateTableList(u.getRoomList());
 					find(u);
 					break;
+				case Data.CHAT_MESSAGE:
+					for(User t:u.getGameRoom().getUserList().values())
+					{
+						if(t.getId().equals(user.getId()))
+						{
+							GameRoomUI g=GameRoomUI.getGameRoomUI();
+							messageCast(g,u);
+						}
+					}
+					break;
 				}
+					
 				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -114,6 +125,10 @@ public class BingoGameClient implements Runnable {
 	{
 		game.lb_title.setText(g.getTitle());
 		game.setTable(g.getUserList());
+	}
+	public void messageCast(GameRoomUI game,Data data)
+	{
+		game.setMessage(data);
 	}
 	
 }

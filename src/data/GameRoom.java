@@ -1,6 +1,7 @@
 package data;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -103,7 +104,7 @@ public class GameRoom implements Serializable {
 	@Override
 	public String toString() {
 		return "GameRoom [roomID=" + roomID + ", title=" + title + ", theme=" + theme + ", maxUserNum=" + maxUserNum
-				+ ", nowUserNum=" + nowUserNum + ", userList=" + userList + "]";
+				+ ", nowUserNum=" + nowUserNum +  "]";
 	}
 	
 }

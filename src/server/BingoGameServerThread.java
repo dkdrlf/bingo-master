@@ -92,7 +92,7 @@ public class BingoGameServerThread implements Runnable {
 						break;
 						
 					case Data.JOIN: {
-						User u=(User)data.getUser();
+						User u=data.getUser();
 						GameRoom g=(GameRoom)data.getGameRoom();
 						u.setState(User.READY);
 						findGame(g,u);
@@ -103,6 +103,10 @@ public class BingoGameServerThread implements Runnable {
 						break;	
 						
 					case Data.CHAT_MESSAGE:
+						GameRoom g=gameRoomList.get(data.getGameRoom().getTitle());
+						data.setGameRoom(g);
+						broadCasting();
+						break;
 					case Data.SEND_WINNING_RESULT:
 					case Data.GAME_READY:
 						User u=data.getUser();
@@ -205,11 +209,4 @@ public class BingoGameServerThread implements Runnable {
 			}
 		}
 	}
-	
-
-	public static void main(String[] args) {
-		BingoGameServerThread b=new BingoGameServerThread();
-		//b.printEventLog("dd");
-	}
-	
 }
