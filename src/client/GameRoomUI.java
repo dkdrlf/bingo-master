@@ -2,6 +2,8 @@ package client;
 
 import javax.swing.JFrame;
 import java.awt.CardLayout;
+import java.awt.Color;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -10,6 +12,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +39,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 
 
-public class GameRoomUI extends JFrame implements ActionListener,KeyListener {
+public class GameRoomUI extends JFrame implements ActionListener{
 	JTextField a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26;
 	JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17,b18,b19,b20,b21,b22,b23,b24,b25;
 
@@ -60,8 +65,8 @@ public class GameRoomUI extends JFrame implements ActionListener,KeyListener {
 	}
 
 	private GameRoomUI() {
+		
 		setTitle("빙고게임 창");
-		// TODO Auto-generated constructor stub
 		this.setBounds(300, 300, 600, 500);
 		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
@@ -74,9 +79,9 @@ public class GameRoomUI extends JFrame implements ActionListener,KeyListener {
 		panel.add(panel_1, "name_1925665454453");
 		panel_1.setLayout(new GridLayout(5,5));
 		
-		HashSet<Integer> sh = new HashSet<>();
+		HashSet<Integer> sh = new HashSet<>();//해쉬셋은 중복된값 안들어감
 		while(true){
-			int n = (int)(Math.random()*50)+1;
+			int n = (int)(Math.random()*50)+1;//1~50
 			sh.add(n);
 			if(sh.size() == 25) break;
 		}
@@ -102,6 +107,7 @@ public class GameRoomUI extends JFrame implements ActionListener,KeyListener {
 		{
 			btn_b[a]=new JButton();
 			panel_2.add(btn_b[a]);
+			btn_b[a].addMouseListener(new mouse());
 		}
 		
 		lb_title = new JLabel();
@@ -137,7 +143,7 @@ public class GameRoomUI extends JFrame implements ActionListener,KeyListener {
 		textField.setBounds(0, 431, 351, 21);
 		getContentPane().add(textField);
 		textField.setColumns(10);
-		textField.addKeyListener(this);
+		textField.addKeyListener(new key());
 		
 		ready = new JButton("준비완료");
 		ready.setBounds(361, 349, 97, 23);
@@ -148,7 +154,6 @@ public class GameRoomUI extends JFrame implements ActionListener,KeyListener {
 		exit.setBounds(475, 349, 97, 23);
 		exit.addActionListener(this);
 		getContentPane().add(exit);
-		
 		
 		setVisible(true);
 	}
@@ -177,6 +182,7 @@ public class GameRoomUI extends JFrame implements ActionListener,KeyListener {
 		if(b)
 		{
 			JOptionPane.showConfirmDialog(this, "게임이 시작되었습니다", "게임시작", JOptionPane.PLAIN_MESSAGE);
+			
 			new Thread(new Timer()).start();
 		}
 	}
@@ -204,7 +210,6 @@ public class GameRoomUI extends JFrame implements ActionListener,KeyListener {
 		}
 		
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -259,44 +264,50 @@ public class GameRoomUI extends JFrame implements ActionListener,KeyListener {
 		}
 	}
 	
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		if(e.VK_ENTER==e.getKeyCode())
-		{
-			Data d=new Data(Data.CHAT_MESSAGE);
-			GameLobbyUI gl=GameLobbyUI.getGL();
-			User u=new User(gl.client.user.getId(), gl.client.user.getPrivilege());
-			d.setMessage(textField.getText());
-			d.setUser(u);
-			GameRoom g=new GameRoom("", lb_title.getText(), "", 1);
-			d.setGameRoom(g);
-			try {
-				gl.client.oos.writeObject(d);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+	public class key extends KeyAdapter
+	{
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			if(e.VK_ENTER==e.getKeyCode())
+			{
+				Data d=new Data(Data.CHAT_MESSAGE);
+				GameLobbyUI gl=GameLobbyUI.getGL();
+				User u=new User(gl.client.user.getId(), gl.client.user.getPrivilege());
+				d.setMessage(textField.getText());
+				d.setUser(u);
+				GameRoom g=new GameRoom("", lb_title.getText(), "", 1);
+				d.setGameRoom(g);
+				try {
+					gl.client.oos.writeObject(d);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				textField.setText("");
 			}
-			textField.setText("");
 		}
 	}
+	
+	public class mouse extends MouseAdapter
+	{
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			for(int a=0;a<25;a++)
+			{
+				if(btn_b[a]==e.getSource())
+				{
+					btn_b[a].setBackground(Color.PINK);
+				}
+			}
+		}
 	}
-
+	
 	public static void main(String[] args) {
 		new GameRoomUI();
 	}
+	
 	
 
 }
