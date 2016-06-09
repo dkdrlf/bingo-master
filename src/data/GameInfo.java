@@ -7,10 +7,10 @@ public class GameInfo implements Serializable {
 	Scanner sc=new Scanner(System.in);
 	
 	private String keyword; //본인이 선택하거나, 상대방이 선택한 빙고 단어
-	//private String bingoKeywords [][] = new String[5][5]; //입력한 25개의 빙고 단어 저장
+	private String bingoKeywords [][] = new String[5][5]; //입력한 25개의 빙고 단어 저장
 	private int bingoResult [][] = new int[5][5];	//빙고 현황(결과)를 담는 배열, 내가 선택하거나 상태방이 선택한 빙고 단어와 일치되는 위치의 값을 1로 초기화 한다.
 	
-	private String bingoKeywords[][]={{"1","2","3","4","5"},{"6","7","8","9","10"},{"11","12","13","14","15"},{"16","17","18","19","20"},{"21","22","23","24","25"}};
+	//private String bingoKeywords[][]={{"1","2","3","4","5"},{"6","7","8","9","10"},{"11","12","13","14","15"},{"16","17","18","19","20"},{"21","22","23","24","25"}};
 	private int x, y; //상대방이 선택한 빙고 단어가 내가 입력한 빙고 단어와 일치하는 것이 발견될 경우 해당 단어의 배열(5X5)상의 위치 값
 	private User user; //자기자신에 대한 정보를 갖는 User
 	int c=0;//빙고체크변수
@@ -170,7 +170,7 @@ public class GameInfo implements Serializable {
 	public int[][] getBingoResult() {
 		return bingoResult;
 	}
-	
+	/*
 	public void check(GameInfo g)
 	{
 		while(true)
@@ -184,5 +184,6 @@ public class GameInfo implements Serializable {
 
 		g.check(g);
 	}
+	*/
 	
 }
