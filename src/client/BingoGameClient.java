@@ -94,8 +94,6 @@ public class BingoGameClient implements Runnable {
 					}
 					break;
 				}
-					
-				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -120,7 +118,6 @@ public class BingoGameClient implements Runnable {
 			}
 		}
 	}
-	
 	public void cast(GameRoomUI game,GameRoom g)
 	{
 		game.lb_title.setText(g.getTitle());

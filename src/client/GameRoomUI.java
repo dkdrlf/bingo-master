@@ -32,6 +32,7 @@ import javax.swing.table.DefaultTableModel;
 import com.sun.javafx.css.StyleCache.Key;
 
 import data.Data;
+import data.GameInfo;
 import data.GameRoom;
 import data.User;
 
@@ -58,6 +59,7 @@ public class GameRoomUI extends JFrame implements ActionListener{
 	private JLabel lblNewLabel_2;
 	private static GameRoomUI grui=new GameRoomUI();
 	private int time = 30;
+	GameInfo gi;
 	
 	public static GameRoomUI getGameRoomUI()
 	{
@@ -188,7 +190,17 @@ public class GameRoomUI extends JFrame implements ActionListener{
 		if(b)
 		{
 			JOptionPane.showConfirmDialog(this, "게임이 시작되었습니다", "게임시작", JOptionPane.PLAIN_MESSAGE);
-			
+			gi=new GameInfo();
+			String st[][]=new String[5][5];
+			for(int a=0;a<5;a++)
+			{
+				for(int c=0;c<5;c++)
+				{
+					st[a][c]=jt_a[a][c].getText();
+					System.out.println(st[a][c]);
+				}
+			}
+			gi.setBingoKeywords(st);
 			new Thread(new Timer()).start();
 		}
 	}
@@ -224,7 +236,6 @@ public class GameRoomUI extends JFrame implements ActionListener{
 		Boolean bl=true;
 		if(ob==ready)
 		{
-			out:
 			for(int a=0;a<5;a++)
 			{
 				for(int b=0;b<5;b++)
@@ -235,7 +246,6 @@ public class GameRoomUI extends JFrame implements ActionListener{
 						bl=false;
 						break;
 					}
-
 					btn_b[a][b].setText(jt_a[a][b].getText());
 				}
 			}
@@ -296,7 +306,8 @@ public class GameRoomUI extends JFrame implements ActionListener{
 				{
 					if(btn_b[a][b]==e.getSource())
 					{
-						btn_b[a][b].setBackground(Color.PINK);
+						btn_b[a][b].setBackground(Color.PINK);		
+						gi.markBingoResult(btn_b[a][b].getText());
 					}
 				}
 			}
