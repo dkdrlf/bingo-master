@@ -201,6 +201,15 @@ public class GameRoomUI extends JFrame implements ActionListener{
 				}
 			}
 			gi.setBingoKeywords(st);
+			for(int a=0;a<cnt;a++)
+			{
+				User q=new User((String)dt.getValueAt(a, 1), 1);
+				
+				//GameRoom g=new GameRoom("", lb_title.getText(), "", "");
+				
+			}
+			
+		
 			new Thread(new Timer()).start();
 		}
 	}

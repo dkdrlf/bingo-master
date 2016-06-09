@@ -80,7 +80,7 @@ public class BingoGameServerThread implements Runnable {
 						User u=data.getUser();
 						u.setState(User.READY);
 						HashMap<String, User> h=new HashMap<>();
-						h.put(u.getId(), u);
+						h.put(u.getId(),u);
 						gr.setUserList(h);
 						gr.setNowUserNum(1);
 						gameRoomList.put(gr.getTitle(), gr);

@@ -77,6 +77,7 @@ public class GameRoom implements Serializable {
 		this.roomID = roomID;
 	}
 	
+	
 	public User getTurnUser() {
 		return turnUser;
 	}
@@ -88,6 +89,7 @@ public class GameRoom implements Serializable {
 		turnUser = userList.get(userID);
 		System.out.println(index+" : "+userID);
 	}
+	
 	
 	public ArrayList<String> getTurnUserList() {
 		return turnUserList;
