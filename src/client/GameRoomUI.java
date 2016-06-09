@@ -43,8 +43,8 @@ public class GameRoomUI extends JFrame implements ActionListener{
 	JTextField a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26;
 	JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17,b18,b19,b20,b21,b22,b23,b24,b25;
 
-	JTextField[] jt_a={a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26};
-	JButton[] btn_b={b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17,b18,b19,b20,b21,b22,b23,b24,b25};
+	JTextField[][] jt_a={{a1,a2,a3,a4,a5},{a6,a7,a8,a9,a10},{a11,a12,a13,a14,a15},{a16,a17,a18,a19,a20},{a21,a22,a23,a24,a25}};
+	JButton[][] btn_b={{b1,b2,b3,b4,b5},{b6,b7,b8,b9,b10},{b11,b12,b13,b14,b15},{b16,b17,b18,b19,b20},{b21,b22,b23,b24,b25}};
 	public JTable table;
 	DefaultTableModel dt=new DefaultTableModel();
 	String column[]={"차례","ID","상태","빙고"};
@@ -92,22 +92,28 @@ public class GameRoomUI extends JFrame implements ActionListener{
 		}
 		
 		Collections.shuffle(rn);
-		
-		for(int a=0;a<25;a++)
+		int index=0;
+		for(int a=0;a<5;a++)
 		{
-			jt_a[a]=new JTextField(Integer.toString(rn.get(a)));
-			panel_1.add(jt_a[a]);
+			for(int b=0;b<5;b++)
+			{
+				jt_a[a][b]=new JTextField(Integer.toString(rn.get(index++)));
+				panel_1.add(jt_a[a][b]);
+			}
 		}
 		
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2, "name_2895533320205");
 		panel_2.setLayout(new GridLayout(5,5));
 		
-		for(int a=0;a<25;a++)
+		for(int a=0;a<5;a++)
 		{
-			btn_b[a]=new JButton();
-			panel_2.add(btn_b[a]);
-			btn_b[a].addMouseListener(new mouse());
+			for(int b=0;b<5;b++)
+			{
+				btn_b[a][b]=new JButton();
+				panel_2.add(btn_b[a][b]);
+				btn_b[a][b].addMouseListener(new mouse());
+			}
 		}
 		
 		lb_title = new JLabel();
@@ -215,33 +221,25 @@ public class GameRoomUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object ob=e.getSource();
-		Boolean b=true;
+		Boolean bl=true;
 		if(ob==ready)
 		{
 			out:
-			for(int a=0;a<25;a++)
+			for(int a=0;a<5;a++)
 			{
-				if(jt_a[a].getText().equals(""))
+				for(int b=0;b<5;b++)
 				{
-					JOptionPane.showConfirmDialog(this, "값을 다 입력하세요", "확인", JOptionPane.PLAIN_MESSAGE);
-					b=false;
-					break;
-				}
-				else
-				{
-					for(int c=a+1;c<25;c++)
+					if(jt_a[a][b].getText().equals(""))
 					{
-						if(jt_a[a].getText().equals(jt_a[c].getText()))
-						{
-							JOptionPane.showConfirmDialog(this, "중복된 값을 입력하지 마세요", "확인", JOptionPane.PLAIN_MESSAGE);
-							b=false;
-							break out;
-						}
+						JOptionPane.showConfirmDialog(this, "값을 다 입력하세요", "확인", JOptionPane.PLAIN_MESSAGE);
+						bl=false;
+						break;
 					}
+
+					btn_b[a][b].setText(jt_a[a][b].getText());
 				}
-				btn_b[a].setText(jt_a[a].getText());
 			}
-			if(b==true)
+			if(bl==true)
 			{
 				c.previous(panel);
 				GameLobbyUI g=GameLobbyUI.getGL();
@@ -287,18 +285,19 @@ public class GameRoomUI extends JFrame implements ActionListener{
 			}
 		}
 	}
-	
 	public class mouse extends MouseAdapter
 	{
-
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
-			for(int a=0;a<25;a++)
+			for(int a=0;a<5;a++)
 			{
-				if(btn_b[a]==e.getSource())
+				for(int b=0;b<5;b++)
 				{
-					btn_b[a].setBackground(Color.PINK);
+					if(btn_b[a][b]==e.getSource())
+					{
+						btn_b[a][b].setBackground(Color.PINK);
+					}
 				}
 			}
 		}
@@ -307,7 +306,4 @@ public class GameRoomUI extends JFrame implements ActionListener{
 	public static void main(String[] args) {
 		new GameRoomUI();
 	}
-	
-	
-
 }
